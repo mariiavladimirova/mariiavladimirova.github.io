@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mariia Vladimirova</title>
-  <meta name="description" content="Mariia Vladimirova — Senior Research Scientist at Criteo AI Lab. Fairness in AI · Causal inference · Constrained optimization.">
+  <meta name="description" content="Mariia Vladimirova — Senior Research Scientist at Criteo AI Lab. Evaluation of AI systems · Fairness auditing · Causal inference · AI governance.">
   <meta property="og:title" content="Mariia Vladimirova">
   <meta property="og:description" content="Senior Research Scientist at Criteo AI Lab, Paris.">
 
@@ -587,7 +587,7 @@
         Senior Research Scientist &nbsp;&middot;&nbsp;
         <a href="https://research.criteo.com" target="_blank" rel="noopener">Criteo AI Lab</a>, Paris
       </div>
-      <div class="header-tagline">Trustworthy AI &nbsp;&middot;&nbsp; Causal inference &nbsp;&middot;&nbsp; AI governance</div>
+      <div class="header-tagline">AI evaluation &nbsp;&middot;&nbsp; Fairness auditing &nbsp;&middot;&nbsp; Causal inference &nbsp;&middot;&nbsp; AI governance</div>
       <div class="links">
         <a class="link-pill" href="mailto:m.vladimirova@criteo.com">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -637,17 +637,17 @@
   <div class="bio">
     <p>
       I am a senior research scientist at <a href="https://research.criteo.com" target="_blank" rel="noopener">Criteo AI Lab</a> in Paris and a member of the <a href="https://team.inria.fr/fairplay/" target="_blank" rel="noopener">Fairplay</a> joint team (Inria).
-      My work spans fairness in machine learning, causal inference, and constrained optimization.
+      I work on the evaluation of AI systems: how we measure what a model does, how much the measurement depends on the protocol, and what a verdict is worth once it leaves the lab.
     </p>
     <p>
-      My research addresses fairness and ethics across the ML stack: bidding systems, recommender systems on tabular data, and large generative models.
-      I study how evaluation protocol choices drive fairness verdicts as much as model properties do, and promote reproducible auditing through <a href="https://mariiavladimirova.github.io/fairness-cards/" target="_blank" rel="noopener">Fairness Cards</a>.
-      On the decision side, I use causal inference and uplift modeling to learn personalized treatment policies for large-scale online systems, with a focus on constrained allocation and budget-aware optimization.
+      Most of my current work audits generative models for fairness. The same model receives opposite verdicts depending on the prompt family, decoding settings, and scorer used to test it, so I study these degrees of freedom directly and promote reproducible auditing through <a href="https://mariiavladimirova.github.io/fairness-cards/" target="_blank" rel="noopener">Fairness Cards</a>.
+      Earlier work built <a href="https://huggingface.co/datasets/criteo/FairJob" target="_blank" rel="noopener">FairJob</a>, a real-world benchmark for fairness in online advertising, and regularizers that give practitioners direct control over the fairness-utility trade-off.
+      In causal inference, I use uplift modeling to learn and evaluate treatment policies offline for large-scale online systems, where a policy has to be judged before it can be deployed.
       Before joining Criteo, I did research on theoretical deep learning at <a href="https://www.inria.fr/en/inria-centre-university-grenoble-alpes" target="_blank" rel="noopener">Inria Grenoble</a> 🚡🏔️.
       An overview of current and upcoming research directions is available on the <a href="./research.html">research page</a>.
     </p>
     <p>
-      I provide technical and scientific inputs to policymakers on AI regulation, including contributions to <a href="https://www.criteo.com/fr/blog/criteo-repond-aux-consultations-de-la-cnil-sur-lapplication-du-rgpd-aux-systemes-et-modeles-dia/" target="_blank" rel="noopener">CNIL consultations on GDPR and AI systems</a> in the context of the EU AI Act.
+      Evaluation is also where research meets regulation. I provide technical and scientific inputs to policymakers on AI regulation, including contributions to <a href="https://www.criteo.com/fr/blog/criteo-repond-aux-consultations-de-la-cnil-sur-lapplication-du-rgpd-aux-systemes-et-modeles-dia/" target="_blank" rel="noopener">CNIL consultations on GDPR and AI systems</a> in the context of the EU AI Act.
       I also co-chair annual AI symposiums, give invited talks at universities and summer schools, and was recognized as a <a href="https://womeninaiethics.org/the-list/rising-stars/" target="_blank" rel="noopener">Rising Star in AI Ethics 2025</a>.
     </p>
   </div>
@@ -658,13 +658,13 @@
 <section>
   <h2>Research Interests</h2>
   <div class="tag-list">
-    <span class="tag">Fairness in generative models</span>
-    <span class="tag">Evaluation methodology</span>
-    <span class="tag">Causal inference &amp; uplift modeling</span>
-    <span class="tag">Constrained optimization</span>
-    <span class="tag">Theoretical deep learning</span>
-    <span class="tag">Trustworthy AI</span>
+    <span class="tag">Evaluation of AI systems</span>
+    <span class="tag">Fairness auditing of generative models</span>
+    <span class="tag">Benchmarks &amp; datasets</span>
+    <span class="tag">Behavioural evaluation of LLMs &amp; agents</span>
+    <span class="tag">Causal inference &amp; off-policy evaluation</span>
     <span class="tag">AI governance &amp; policy</span>
+    <span class="tag">Theoretical deep learning</span>
   </div>
 </section>
 
@@ -949,7 +949,7 @@
 
 
 <footer>
-  &copy; Mariia Vladimirova &nbsp;&middot;&nbsp; Last updated June 2026 &nbsp;&middot;&nbsp;
+  &copy; Mariia Vladimirova &nbsp;&middot;&nbsp; Last updated September 2026 &nbsp;&middot;&nbsp;
   <a href="mailto:m.vladimirova@criteo.com">m.vladimirova@criteo.com</a>
 </footer>
 
@@ -1094,24 +1094,22 @@
   ];
 
   const isDark = () => document.documentElement.getAttribute('data-theme') === 'dark';
-  const LIGHT_TILES = 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
-  const DARK_TILES  = 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png';
-  const ATTRIBUTION = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/">CARTO</a>';
+  // Esri canvas basemaps: no API key required (CARTO basemaps now need one).
+  const LIGHT_TILES = 'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}';
+  const DARK_TILES  = 'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}';
+  const ATTRIBUTION = 'Tiles &copy; <a href="https://www.esri.com/">Esri</a> &mdash; Esri, HERE, Garmin, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
+  const TILE_OPTS = { attribution: ATTRIBUTION, maxZoom: 16 };
 
   const map = L.map('talks-map', { scrollWheelZoom: false, zoomControl: true })
     .setView([40, -15], 2);
 
-  let tileLayer = L.tileLayer(isDark() ? DARK_TILES : LIGHT_TILES, {
-    attribution: ATTRIBUTION, subdomains: 'abcd', maxZoom: 14
-  }).addTo(map);
+  let tileLayer = L.tileLayer(isDark() ? DARK_TILES : LIGHT_TILES, TILE_OPTS).addTo(map);
 
   // Swap tiles when theme toggles
   document.getElementById('themeBtn').addEventListener('click', () => {
     setTimeout(() => {
       map.removeLayer(tileLayer);
-      tileLayer = L.tileLayer(isDark() ? DARK_TILES : LIGHT_TILES, {
-        attribution: ATTRIBUTION, subdomains: 'abcd', maxZoom: 14
-      }).addTo(map);
+      tileLayer = L.tileLayer(isDark() ? DARK_TILES : LIGHT_TILES, TILE_OPTS).addTo(map);
     }, 50);
   });
 

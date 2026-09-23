@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Research — Mariia Vladimirova</title>
-  <meta name="description" content="Research themes of Mariia Vladimirova: fairness in generative models, fairness in online systems, causal inference and policy learning, theoretical deep learning.">
+  <meta name="description" content="Research themes of Mariia Vladimirova: evaluation of AI systems, fairness auditing of generative models, benchmarks for online systems, offline evaluation of causal policies, theoretical deep learning.">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -192,20 +192,20 @@
 
 <div class="page-header">
   <h1>Research</h1>
-  <p>Four themes spanning trustworthy AI, causal inference, and the foundations of deep learning.</p>
+  <p>How we evaluate AI systems, and what the verdicts are worth.</p>
 </div>
 
 <div class="section-nav" id="sectionNav">
-  <a class="snav-link" href="#genai">GenAI Ethics</a>
-  <a class="snav-link" href="#systems">Online Systems</a>
-  <a class="snav-link" href="#causal">Causal &amp; Decision</a>
-  <a class="snav-link" href="#theory">Theory</a>
+  <a class="snav-link" href="#genai">Auditing GenAI</a>
+  <a class="snav-link" href="#systems">Benchmarks</a>
+  <a class="snav-link" href="#causal">Policy evaluation</a>
+  <a class="snav-link" href="#theory">Foundations</a>
   <a class="snav-link" href="#ahead">Looking ahead</a>
 </div>
 
 
 <p style="color: var(--text-2); font-size: 0.95rem; line-height: 1.7; margin-bottom: 36px;">
-  My research spans the gap between theory and deployed AI systems. On one end, rigorous statistical foundations for deep learning. On the other, concrete tools for measuring and enforcing fairness in large-scale online platforms and generative models. Across all themes, evaluation methodology is the connective thread: how we measure properties of AI systems shapes what we build, how we audit it, and ultimately how we regulate it.
+  Every claim about an AI system rests on a measurement. My research asks how much of a verdict comes from the system and how much from the protocol used to test it, and builds the artifacts that make the answer checkable: reporting standards for fairness audits of generative models, a real-world benchmark for fairness in online advertising, and offline estimators that judge a treatment policy before it is deployed. Evaluation is also the interface between research and regulation, since a rule that cannot be measured cannot be enforced. Earlier work on the statistical foundations of deep networks sits underneath all of it.
 </p>
 
 <!-- ── Theme 1: Fairness in Generative Models ── -->
@@ -243,16 +243,16 @@
     </svg>
   </div>
   <div class="theme-body">
-    <div class="theme-number">Theme 01 &nbsp;·&nbsp; GenAI Ethics</div>
-    <div class="theme-title">Ethics &amp; Evaluation in Generative AI</div>
+    <div class="theme-number">Theme 01 &nbsp;·&nbsp; Auditing generative models</div>
+    <div class="theme-title">Fairness Audits of Generative AI as a Measurement Problem</div>
     <p>
-      Generative models are routinely audited for bias, yet the verdicts rarely agree across papers or translate into actionable deployment decisions. The core problem is not the models themselves: it is the evaluation. Prompt family, decoding temperature, refusal handling, and scoring rubric each shift the verdict substantially, yet current practice leaves these degrees of freedom implicit.
+      Generative models are routinely audited for bias, yet the verdicts rarely agree across papers or translate into deployment decisions. Prompt family, decoding temperature, refusal handling, and scoring rubric each shift the verdict substantially, and current reporting leaves these degrees of freedom implicit.
     </p>
     <p>
-      Our research quantifies how much evaluation choices drive fairness conclusions relative to model properties, diagnoses the recurring failure modes (prompt sensitivity, sampling instability, counterfactual inconsistency, intersectional blind spots), and proposes <strong>Fairness Cards</strong> as a standardized reporting artifact. A Fairness Card pins down the audit surface, making findings reproducible, comparable, and actionable for the first time.
+      We quantify how much of a fairness conclusion comes from evaluation choices rather than from the model, diagnose the recurring failure modes (prompt sensitivity, sampling instability, counterfactual inconsistency, intersectional blind spots), and propose <strong>Fairness Cards</strong> as a standardized reporting artifact. A Fairness Card pins down the audit surface so that two audits of the same model can be compared.
     </p>
     <p>
-      As illustrative evidence, we conducted a controlled audit of <strong>Qwen2.5-7B-Instruct</strong> across 3,200 generations on a factorial grid of demographic slices, prompt families, decoding regimes, and seeds. The headline finding: the same model receives opposite fairness verdicts depending solely on which prompt family is used to evaluate it.
+      In a controlled audit of <strong>Qwen2.5-7B-Instruct</strong> across 3,200 generations on a factorial grid of demographic slices, prompt families, decoding regimes, and seeds, the same model received opposite fairness verdicts depending solely on which prompt family was used to evaluate it. Ongoing work repeats the audit across several model families to measure how unstable such verdicts are in general, and extends the protocol to image generation.
     </p>
     <div class="theme-papers">
       <a class="paper-chip" href="https://mariiavladimirova.github.io/fairness-cards/" target="_blank" rel="noopener">
@@ -304,13 +304,13 @@
     </svg>
   </div>
   <div class="theme-body">
-    <div class="theme-number">Theme 02 &nbsp;·&nbsp; Fairness in Systems</div>
-    <div class="theme-title">Fairness in Online Systems &amp; Tabular Data</div>
+    <div class="theme-number">Theme 02 &nbsp;·&nbsp; Benchmarks for online systems</div>
+    <div class="theme-title">Measuring Fairness in Deployed Online Systems</div>
     <p>
-      Bias in machine learning manifests most concretely in the systems people interact with daily: job recommendation platforms, advertising auctions, credit scoring, and content feeds. These systems operate on tabular data at industrial scale, with sensitive attributes (gender, ethnicity) often unavailable at training or inference time.
+      Fairness in machine learning is tested most often on a handful of small academic tables. The systems people interact with daily (job recommendation, advertising auctions, content feeds) run on industrial-scale tabular data where the sensitive attribute is unavailable at training or inference time, so the usual fairness metrics cannot even be computed without a proxy.
     </p>
     <p>
-      Our work addresses this at two levels. <strong>FairJob</strong> provides the first large-scale real-world dataset for fairness in job advertising, with a pragmatic method for deriving protected attribute proxies under privacy constraints. On the algorithmic side, we study the theoretical connections between statistical independence measures (such as Cramér-von Mises, HSIC, and distance correlation) and standard fairness criteria (demographic parity, equalized odds), and use these connections to design efficient, differentiable regularizers that give practitioners direct control over the fairness-utility trade-off.
+      <strong>FairJob</strong>, published in the NeurIPS Datasets and Benchmarks track, is a real-world benchmark for fairness in job advertising built from production logs, with a method for deriving protected-attribute proxies under privacy constraints and an evaluation of what bias mitigation costs in utility. On the mitigation side, we relate statistical independence measures (Cramér-von Mises, HSIC, distance correlation) to standard fairness criteria such as demographic parity and equalized odds, and turn these connections into differentiable regularizers that give practitioners direct control over the fairness-utility trade-off.
     </p>
     <div class="theme-papers">
       <a class="paper-chip" href="https://proceedings.neurips.cc/paper_files/paper/2024/file/142bff4f4c01dd55c4309860ff3a59f1-Paper-Datasets_and_Benchmarks_Track.pdf" target="_blank" rel="noopener">
@@ -360,13 +360,13 @@
     </svg>
   </div>
   <div class="theme-body">
-    <div class="theme-number">Theme 03 &nbsp;·&nbsp; Causal &amp; Decision</div>
-    <div class="theme-title">Causal Inference &amp; Policy Learning at Scale</div>
+    <div class="theme-number">Theme 03 &nbsp;·&nbsp; Evaluating decisions</div>
+    <div class="theme-title">Offline Evaluation of Treatment Policies at Scale</div>
     <p>
-      Personalization at industrial scale is fundamentally a causal problem: we want to know the effect of an action (a bid, a recommendation, a discount) on an individual, then allocate actions to maximize aggregate value under a budget constraint. Standard supervised learning cannot answer this: it requires uplift modeling and causal treatment effect estimation.
+      Personalization at industrial scale is a causal problem: what is the effect of an action (a bid, a recommendation, a discount) on an individual, and how should actions be allocated under a budget? The evaluation question is just as hard as the learning question. A new policy can only be judged on logged data collected under an old one, so every claim about its value is a counterfactual estimate.
     </p>
     <p>
-      Our work develops two complementary approaches. <strong>CUVET</strong> exploits the economic structure of advertising (specifically the diminishing-returns relationship between spend and value) to derive a closed-form optimal policy via recursive partitioning that equalizes the marginal cost per unit value across user cohorts. For discrete allocation settings, we study how to <strong>maximize the success probability</strong> of a policy allocation, giving operators a principled way to reason about risk in stochastic environments.
+      <strong>CUVET</strong> exploits the diminishing-returns relationship between spend and value in advertising to derive a closed-form optimal policy via recursive partitioning that equalizes the marginal cost per unit value across user cohorts, and evaluates it against strong and naive baselines on a public policy dataset. For discrete allocation, we study how to <strong>maximize the success probability</strong> of a policy allocation, which gives operators a way to reason about risk rather than expected value alone.
     </p>
     <div class="theme-papers">
       <a class="paper-chip" href="https://huggingface.co/datasets/anonadata/CUVET-policy" target="_blank" rel="noopener">
@@ -424,10 +424,10 @@
     </svg>
   </div>
   <div class="theme-body">
-    <div class="theme-number">Theme 04 &nbsp;·&nbsp; Theory</div>
+    <div class="theme-number">Theme 04 &nbsp;·&nbsp; Foundations</div>
     <div class="theme-title">Theoretical Deep Learning</div>
     <p>
-      What distribution does a deep network implicitly place on its outputs before seeing any data? With Gaussian priors on weights, the output prior becomes heavier-tailed as depth increases, following a generalized Weibull-tail pattern. Understanding this behavior is foundational for prior design, calibration, and the theoretical analysis of deep learning.
+      What distribution does a deep network implicitly place on its outputs before seeing any data? With Gaussian priors on weights, the output prior becomes heavier-tailed as depth increases, following a generalized Weibull-tail pattern. The result matters for prior design and for calibration, which is itself an evaluation question: how far a model's stated uncertainty can be trusted.
     </p>
     <p>
       During a PhD at Inria Grenoble, we established the connection between BNN priors and Weibull-tail distributions, introduced the <strong>Sub-Weibull class</strong> of distributions as a unifying framework generalizing sub-Gaussian and sub-exponential properties, and characterized how units in deep networks become dependent as depth grows. This line of work is collected and extended in a <strong>review of Bayesian neural networks</strong> published in <em>Statistical Science</em>.
@@ -456,19 +456,19 @@
     <div class="theme-number" style="color: var(--accent);">Looking ahead</div>
     <div class="theme-title">Current &amp; Upcoming Directions</div>
     <p>
-      Two threads are shaping our current work. The first extends the fairness evaluation agenda to generative image models: we are studying bias in diffusion models and how standard evaluation protocols fail in the visual generation setting in the same way they fail for text.
+      Three threads shape the current work. The first asks how stable a fairness verdict is: we re-run the same audit across model families, releases, and benchmarks to separate what the model contributes from what the protocol contributes, and extend the protocol from text to diffusion models, where standard evaluation choices fail in the same way.
     </p>
     <p>
-      The second thread moves toward trustworthiness and safety in large language models more broadly, working with collaborators at the intersection of alignment, robustness, and evaluation methodology. As models shift from single-turn generation to agentic systems capable of autonomous multi-step reasoning and tool use, the evaluation challenges multiply: the space of possible behaviors grows combinatorially, failure modes are harder to anticipate, and the gap between offline benchmarks and deployed behavior widens. Understanding how to audit, constrain, and certify agentic systems is a pressing open problem.
+      The second thread is behavioural evaluation of language models. We measure how a model's answers shift when other participants in a conversation assert a different answer, and whether those shifts replicate across model releases and benchmarks. Small changes in the stimulus or the scoring rule move the estimate, and a large part of the work is designing protocols where the measurement itself does not decide the result.
     </p>
     <p>
-      The longer-term goal is to build evaluation into a first-class research area with its own principled methods, failure taxonomies, and reproducibility standards, grounded in current industry practices and directly informing emerging AI regulations.
+      The third thread follows models into agentic settings. Once a model plans, calls tools, and acts over several steps, the space of behaviours grows combinatorially and the gap between offline benchmarks and deployed behaviour widens. How to audit, constrain, and certify such systems, with methods that regulators can point to, is the open problem I find most pressing. The longer-term goal is evaluation as a research area in its own right, with its own methods, failure taxonomies, and reproducibility standards, grounded in industry practice and feeding into the rules now being written for AI.
     </p>
   </div>
 </div>
 
 <footer>
-  &copy; Mariia Vladimirova &nbsp;&middot;&nbsp; Last updated June 2026 &nbsp;&middot;&nbsp;
+  &copy; Mariia Vladimirova &nbsp;&middot;&nbsp; Last updated September 2026 &nbsp;&middot;&nbsp;
   <a href="mailto:m.vladimirova@criteo.com">m.vladimirova@criteo.com</a>
 </footer>
 
